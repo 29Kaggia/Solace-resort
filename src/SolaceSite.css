@@ -64,3 +64,4 @@
 @media(max-width:680px){.offering-photo{height:132px}.offering-content{padding-left:15px;padding-right:15px}.offering-card p{min-height:0}.offering-photo-note{line-height:1.6}}
 .facebook-link{display:inline-flex;align-items:center;justify-content:center;width:30px;height:38px;color:#1769aa;transition:transform .2s,color .2s}.facebook-link:hover{color:#0d4e83;transform:translateY(-2px)}.facebook-link svg{display:block;width:25px;height:25px}.footer-links .facebook-link{width:24px;height:20px}.footer-links .facebook-link svg{width:20px;height:20px}
 @media(max-width:680px){.footer-links .facebook-link{width:24px;height:20px;padding:0;border:0}.footer-links .facebook-link svg{width:20px;height:20px}}
+
