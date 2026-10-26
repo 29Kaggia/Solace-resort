@@ -61,6 +61,7 @@
 .offering-card:nth-child(1) .offering-icon,.offering-card:nth-child(6) .offering-icon{border-color:#1b5e8b}
 .offering-photo-note{margin:24px 0 0;color:#617c90;font-size:10px}
 .offering-photo-note a{color:#155f8b;text-decoration:underline;text-underline-offset:2px}
+.offering-status{position:absolute;z-index:2;top:12px;left:12px;padding:7px 10px;border:1px solid #ffffff80;border-radius:20px;color:#fff;background:#102f50c9;font-size:9px;font-weight:700;letter-spacing:.06em;backdrop-filter:blur(5px)}
 @media(max-width:680px){.offering-photo{height:132px}.offering-content{padding-left:15px;padding-right:15px}.offering-card p{min-height:0}.offering-photo-note{line-height:1.6}}
 .facebook-link{display:inline-flex;align-items:center;justify-content:center;width:30px;height:38px;color:#1769aa;transition:transform .2s,color .2s}.facebook-link:hover{color:#0d4e83;transform:translateY(-2px)}.facebook-link svg{display:block;width:25px;height:25px}.footer-links .facebook-link{width:24px;height:20px}.footer-links .facebook-link svg{width:20px;height:20px}
 @media(max-width:680px){.footer-links .facebook-link{width:24px;height:20px;padding:0;border:0}.footer-links .facebook-link svg{width:20px;height:20px}}
@@ -81,4 +82,15 @@
 .whatsapp-float:focus-visible{outline:3px solid #102f50;outline-offset:3px}
 @media(max-width:680px){.whatsapp-float{right:17px;bottom:17px;width:54px;height:54px}.whatsapp-float svg{width:27px;height:27px}}
 @media(prefers-reduced-motion:reduce){.whatsapp-float{transition:none}}
+
+.hero{isolation:isolate;overflow:hidden;background-color:#102f50}
+.hero-slides,.hero-shade{position:absolute;inset:0}
+.hero-slides{z-index:-1}
+.hero-slide{position:absolute;inset:0;opacity:0;transition:opacity 1.4s ease-in-out}
+.hero-slide.active{opacity:1}
+.hero-slide img{width:100%;height:100%;display:block;object-fit:cover;object-position:center 53%}
+.hero-shade{z-index:0;background:linear-gradient(90deg,rgba(13,38,66,.76),rgba(13,38,66,.4) 47%,rgba(13,38,66,.08))}
+.hero-inner{position:relative;z-index:1}
+.hero-scroll,.hero-caption{z-index:1}
+@media(prefers-reduced-motion:reduce){.hero-slide{transition:none}}
 

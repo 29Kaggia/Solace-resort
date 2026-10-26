@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react'
+import { useEffect, useState, type FormEvent } from 'react'
 import { BedDouble, GraduationCap, Heart, Presentation, Tent, UtensilsCrossed, Waves } from 'lucide-react'
 import './SolaceSite.css'
 
@@ -31,6 +31,7 @@ const galleryPhotos = [
   { src: '/cabin%20out.jpg', alt: 'Exterior of a Solace Resort cabin' },
   { src: '/out1.jpg', alt: 'Outdoor area at Solace Resort' },
 ]
+const heroPhotos = ['/out3.jpg', '/ground3.jpg', '/grounds2.jpg']
 const tours = [
   { name: 'Thomson’s Falls', place: 'NYAHURURU', note: 'Take in the power and cool mist of the Ewaso Ng’iro as it drops into the gorge.', file: "Thomson's falls.jpg", author: 'Mujtabaa Bashir', source: 'https://commons.wikimedia.org/wiki/File:Thomson%27s_falls.jpg' },
   { name: 'Lake Nakuru National Park', place: 'NAKURU', note: 'A wildlife day of lake views, acacia woodland, and remarkable birdlife.', file: 'Lake nakuru flamingos.jpg', author: 'Bett Duncan', source: 'https://commons.wikimedia.org/wiki/File:Lake_nakuru_flamingos.jpg' },
@@ -42,9 +43,10 @@ const offerings = [
   { title: 'Events & catering', note: 'Bring your guests together on the grounds and ask us about catering.', image: '/ground3.jpg', Icon: UtensilsCrossed },
   { title: 'Accommodation', note: 'Rooms and cabins for guests who would like to stay at Solace.', image: '/room3.jpg', Icon: BedDouble },
   { title: 'Conference hall', note: 'A venue for meetings, workshops, and conferences in Subukia.', image: '/lounge.jpg', Icon: Presentation },
-  { title: 'Camping sites', note: 'Spend a night outdoors on the Solace grounds.', image: '/cabin3.jpg', Icon: Tent },
-  { title: 'School CBE activities', note: 'Bring your school group to learn and take part in CBE activities.', image: '/grounds.jpg', Icon: GraduationCap },
-  { title: 'Swimming pool & cottages', note: 'Make time for a swim, then unwind in a cottage.', image: 'photo-1576013551627-0cc20b96c2a7', Icon: Waves },
+  { title: 'Camping sites', note: 'Spend a night under canvas on the Solace grounds.', image: 'photo-1769952055799-aa6d3e01f3a2', Icon: Tent },
+  { title: 'School CBE activities', note: 'Bring your school group to learn and take part in CBE activities.', image: '/cbc.png', Icon: GraduationCap },
+  { title: 'Swimming', note: 'Coming soon. Check back with us for updates on swimming at Solace.', image: 'photo-1576013551627-0cc20b96c2a7', Icon: Waves, status: 'Coming soon' },
+  { title: 'Cottages', note: 'Settle into a cabin and enjoy a stay on the Solace grounds.', image: '/cabin3.jpg', Icon: BedDouble },
 ]
 const phone = '+254799241751'
 const license = 'https://creativecommons.org/licenses/by-sa/4.0/'
@@ -54,6 +56,12 @@ const Arrow = () => <span aria-hidden="true">↗</span>
 export default function SolaceSite() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [submitted, setSubmitted] = useState(false)
+  const [heroPhotoIndex, setHeroPhotoIndex] = useState(0)
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const timer = window.setInterval(() => setHeroPhotoIndex((index) => (index + 1) % heroPhotos.length), 7000)
+    return () => window.clearInterval(timer)
+  }, [])
   function sendInquiry(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     const details = [...new FormData(event.currentTarget).entries()].map(([key, value]) => `${key}: ${value}`).join('\n')
@@ -70,9 +78,10 @@ export default function SolaceSite() {
       <nav className={menuOpen ? 'nav open' : 'nav'} aria-label="Main navigation"><a href="#stay" onClick={closeMenu}>Stay</a><a href="#gallery" onClick={closeMenu}>Gallery</a><a href="#tours" onClick={closeMenu}>Tours</a><a href="#experiences" onClick={closeMenu}>Experiences</a><a href="#offerings" onClick={closeMenu}>What we offer</a><a href="#story" onClick={closeMenu}>Our story</a><a className="nav-cta" href="#contact" onClick={closeMenu}>Plan your stay <Arrow /></a></nav>
     </header>
 
-    <section className="hero" id="home" style={{ backgroundImage: `linear-gradient(90deg,rgba(13,38,66,.76),rgba(13,38,66,.4) 47%,rgba(13,38,66,.08)),url("/out2.jpg")` }}>
+    <section className="hero" id="home">
+      <div className="hero-slides" aria-hidden="true">{heroPhotos.map((src, index) => <div className={index === heroPhotoIndex ? 'hero-slide active' : 'hero-slide'} key={src}><img src={src} alt="" fetchPriority={index === 0 ? 'high' : 'auto'} /></div>)}</div><div className="hero-shade" />
       <div className="hero-inner"><p className="kicker"><span /> YOUR PLACE IN SUBUKIA</p><h1>Stay awhile<br />at <em>Solace.</em></h1><p className="hero-copy">Come for a night away, a family gathering, a celebration, or simply a little room to breathe. There’s space for it here in Subukia.</p><div className="hero-actions"><a className="button light" href="#stay">Find your stay <Arrow /></a><a className="text-link" href="#story">Get to know Solace <span>↓</span></a></div></div>
-      <span className="hero-scroll">SCROLL TO DISCOVER ↓</span><div className="hero-caption">01 / 03 <span /> A softer kind of getaway</div>
+      <span className="hero-scroll">SCROLL TO DISCOVER ↓</span><div className="hero-caption">{String(heroPhotoIndex + 1).padStart(2, '0')} / 03 <span /> A place to stay, gather, and breathe</div>
     </section>
 
     <section className="welcome section" id="story"><div className="welcome-aside"><span>01 — SUBUKIA, NAKURU</span><b>✳</b></div><div className="welcome-copy"><p className="eyebrow">WELCOME TO SOLACE</p><h2>A place to come<br />together and <em>feel at home.</em></h2><p>At Solace Garden Resort, you can settle into a room, spend time on the grounds, or bring your people together for a celebration or meeting. We’re here in Subukia, Nakuru, with a warm welcome and space to make the day your own.</p><a className="under-link" href="#experiences">Explore the grounds <Arrow /></a></div><div className="welcome-image" style={{ backgroundImage: 'url("/solace%20board.jpeg")' }}><span>WELCOME TO SUBUKIA</span></div></section>
@@ -81,7 +90,7 @@ export default function SolaceSite() {
 
     <section className="stays section" id="stay"><div className="section-heading"><div><p className="eyebrow">ROOM TO REST</p><h2>Settle in at <em>Solace.</em></h2><p className="offerings-intro">Choose a cabin, a family stay, or a little more room outdoors. Get in touch and we’ll help you find the right fit.</p></div><a className="under-link" href="#contact">Ask about a stay <Arrow /></a></div><div className="stay-grid">{stays.map((stay) => <article className="stay-card" key={stay.no}><a href="#contact" className="stay-image" style={{ backgroundImage: `url(${stay.image.startsWith('/') ? stay.image : photo(stay.image)})` }} aria-label={`Ask about ${stay.name}`}><span className="tag">{stay.label}</span><span className="round-arrow"><Arrow /></span></a><div className="stay-meta"><span>{stay.no}</span><div><h3>{stay.name}</h3><p>{stay.note}</p></div></div></article>)}</div></section>
 
-    <section className="offerings section" id="offerings"><div className="section-heading"><div><p className="eyebrow">WAYS TO SPEND YOUR TIME HERE</p><h2>Come for what <em>brings you.</em></h2><p className="offerings-intro">A wedding on the grounds, a meal with your group, a meeting, or a night away: tell us what you have in mind and we’ll help you plan it at Solace.</p></div><a className="under-link" href={`tel:${phone}`}>Ask us about a booking <Arrow /></a></div><div className="offering-grid">{offerings.map(({ title, note, image, Icon }, index) => <article className="offering-card" key={title}><div className="offering-photo"><img src={image.startsWith('/') ? image : photo(image, 760)} alt="" loading="lazy" /><span className="offering-number">0{index + 1}</span></div><div className="offering-content"><span className="offering-icon"><Icon size={22} strokeWidth={1.7} /></span><h3>{title}</h3><p>{note}</p><a href={`tel:${phone}`} aria-label={`Call about ${title}`}>Enquire <Arrow /></a></div></article>)}</div></section>
+    <section className="offerings section" id="offerings"><div className="section-heading"><div><p className="eyebrow">WAYS TO SPEND YOUR TIME HERE</p><h2>Come for what <em>brings you.</em></h2><p className="offerings-intro">A wedding on the grounds, a meal with your group, a meeting, or a night away: tell us what you have in mind and we’ll help you plan it at Solace.</p></div><a className="under-link" href={`tel:${phone}`}>Ask us about a booking <Arrow /></a></div><div className="offering-grid">{offerings.map(({ title, note, image, Icon, status }, index) => <article className="offering-card" key={title}><div className="offering-photo"><img src={image.startsWith('/') ? image : photo(image, 760)} alt="" loading="lazy" /><span className="offering-number">0{index + 1}</span>{status && <span className="offering-status">{status}</span>}</div><div className="offering-content"><span className="offering-icon"><Icon size={22} strokeWidth={1.7} /></span><h3>{title}</h3><p>{note}</p><a href={`tel:${phone}`} aria-label={`${status ? 'Ask for updates about' : 'Call about'} ${title}`}>{status ? 'Ask about updates' : 'Enquire'} <Arrow /></a></div></article>)}</div><p className="offering-photo-note">Camping photo: <a href="https://unsplash.com/photos/a-rustic-glamping-tent-in-a-lush-green-forest-JOsn19Adaaw" target="_blank" rel="noreferrer">Syaiful Lil M / Unsplash</a> (illustrative). Swimming photo is also illustrative.</p></section>
 
     <section className="tours section" id="tours"><div className="section-heading"><div><p className="eyebrow">OUT AND ABOUT FROM SUBUKIA</p><h2>Find your next <em>view.</em></h2><p className="tour-intro">Make time for the wider region: Thomson’s Falls, Lake Nakuru, Menengai Crater, and Lake Bogoria are all here to explore.</p></div><a className="under-link" href={`tel:${phone}`}>Ask about a tour <Arrow /></a></div><div className="tour-grid">{tours.map((tour, index) => <article className="tour-card" key={tour.name}><div className="tour-photo"><img src={commonsImage(tour.file)} alt={`${tour.name} in Kenya`} loading="lazy" /><span className="tour-number">0{index + 1}</span></div><div className="tour-details"><span className="tour-place">{tour.place}</span><h3>{tour.name}</h3><p>{tour.note}</p><small className="photo-credit">Photo: <a href={tour.source} target="_blank" rel="noreferrer">{tour.author} / Wikimedia Commons</a> · <a href={license} target="_blank" rel="noreferrer">CC BY-SA 4.0</a> · cropped</small></div></article>)}</div></section>
 
