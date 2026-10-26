@@ -31,7 +31,7 @@ const galleryPhotos = [
   { src: '/cabin%20out.jpg', alt: 'Exterior of a Solace Resort cabin' },
   { src: '/out1.jpg', alt: 'Outdoor area at Solace Resort' },
 ]
-const heroPhotos = ['/solace%20garden.jpeg', '/cabin3.jpg', '/room2.jpg']
+const heroPhotos = ['/out2.jpg', '/cabin3.jpg', '/room2.jpg']
 const tours = [
   { name: 'Thomson’s Falls', place: 'NYAHURURU', note: 'Take in the power and cool mist of the Ewaso Ng’iro as it drops into the gorge.', file: "Thomson's falls.jpg", author: 'Mujtabaa Bashir', source: 'https://commons.wikimedia.org/wiki/File:Thomson%27s_falls.jpg' },
   { name: 'Lake Nakuru National Park', place: 'NAKURU', note: 'A wildlife day of lake views, acacia woodland, and remarkable birdlife.', file: 'Lake nakuru flamingos.jpg', author: 'Bett Duncan', source: 'https://commons.wikimedia.org/wiki/File:Lake_nakuru_flamingos.jpg' },
